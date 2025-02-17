@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class DustParticleControl : MonoBehaviour
+namespace TopDown
 {
-    [SerializeField] private bool createDustOnWalk = true;
-    [SerializeField] private ParticleSystem dustParticleSystem;
-
-    public void CreateDustParticles()
+    public class DustParticleControl : MonoBehaviour
     {
-        if (createDustOnWalk)
+        [SerializeField] private bool createDustOnWalk = true;
+        [SerializeField] private ParticleSystem dustParticleSystem;
+
+        public void CreateDustParticles()
         {
-            dustParticleSystem.Stop();
-            dustParticleSystem.Play();
+            if (createDustOnWalk)
+            {
+                dustParticleSystem.Stop();
+                dustParticleSystem.Play();
+            }
         }
     }
 }

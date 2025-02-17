@@ -1,64 +1,72 @@
 using UnityEngine;
 
-public class EnemyController : BaseController
+namespace TopDown
 {
-    private EnemyManager enemyManager;
-    private Transform target;
-
-    [SerializeField] private float followRange = 15f;
-
-    public void Init(EnemyManager enemyManager, Transform target)
+    public class EnemyController : BaseController
     {
-        this.enemyManager = enemyManager;
-        this.target = target;
-    }
+        private EnemyManager enemyManager;
+        private Transform target;
 
-    protected float DistanceToTarget()
-    {
-        return Vector3.Distance(transform.position, target.position);
-    }
+        [SerializeField] private float followRange = 15f;
 
-    protected override void HandleAction()
-    {
-        base.HandleAction();
-
-        if (weaponHandler == null || target == null)
+        public void Init(EnemyManager enemyManager, Transform target)
         {
-            if (!movementDirection.Equals(Vector2.zero)) movementDirection = Vector2.zero;
-            return;
+            this.enemyManager = enemyManager;
+            this.target = target;
         }
 
-        float distance = DistanceToTarget();
-        Vector2 direction = DirectionToTarget();
-
-        isAttacking = false;
-        if (distance <= followRange)
+        protected float DistanceToTarget()
         {
-            lookDirection = direction;
+            return Vector3.Distance(transform.position, target.position);
+        }
 
-            if (distance <= weaponHandler.AttackRange)
+        protected override void HandleAction()
+        {
+            base.HandleAction();
+
+            if (weaponHandler == null || target == null)
             {
-                int layerMaskTarget = weaponHandler.target;
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, weaponHandler.AttackRange * 1.5f,
-                    (1 << LayerMask.NameToLayer("Level")) | layerMaskTarget);
-
-                if (hit.collider != null && layerMaskTarget == (layerMaskTarget | (1 << hit.collider.gameObject.layer)))
-                {
-                    isAttacking = true;
-                }
-
-                movementDirection = Vector2.zero;
+                if (!movementDirection.Equals(Vector2.zero)) movementDirection = Vector2.zero;
                 return;
             }
 
-            movementDirection = direction;
+            float distance = DistanceToTarget();
+            Vector2 direction = DirectionToTarget();
+
+            isAttacking = false;
+            if (distance <= followRange)
+            {
+                lookDirection = direction;
+
+                if (distance <= weaponHandler.AttackRange)
+                {
+                    int layerMaskTarget = weaponHandler.target;
+                    RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, weaponHandler.AttackRange * 1.5f,
+                        (1 << LayerMask.NameToLayer("Level")) | layerMaskTarget);
+
+                    if (hit.collider != null && layerMaskTarget == (layerMaskTarget | (1 << hit.collider.gameObject.layer)))
+                    {
+                        isAttacking = true;
+                    }
+
+                    movementDirection = Vector2.zero;
+                    return;
+                }
+
+                movementDirection = direction;
+            }
+
         }
 
-    }
+        protected Vector2 DirectionToTarget()
+        {
+            return (target.position - transform.position).normalized;
+        }
 
-    protected Vector2 DirectionToTarget()
-    {
-        return (target.position - transform.position).normalized;
+        public override void Death()
+        {
+            base.Death();
+            enemyManager.RemoveEnemyOnDeath(this);
+        }
     }
-
 }

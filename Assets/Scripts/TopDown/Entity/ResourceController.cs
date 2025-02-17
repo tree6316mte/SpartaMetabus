@@ -1,71 +1,93 @@
+using System;
 using UnityEngine;
 
-public class ResourceController : MonoBehaviour
+namespace TopDown
 {
-    [SerializeField] private float healthChangeDelay = .5f;
-
-    private BaseController baseController;
-    private StatHandler statHandler;
-    private AnimationHandler animationHandler;
-
-    private float timeSinceLastChange = float.MaxValue;
-
-    public float CurrentHealth { get; private set; }
-    public float MaxHealth => statHandler.Health;
-
-    private void Awake()
+    public class ResourceController : MonoBehaviour
     {
-        statHandler = GetComponent<StatHandler>();
-        animationHandler = GetComponent<AnimationHandler>();
-        baseController = GetComponent<BaseController>();
-    }
+        [SerializeField] private float healthChangeDelay = .5f;
 
-    private void Start()
-    {
-        CurrentHealth = statHandler.Health;
-    }
+        private BaseController baseController;
+        private StatHandler statHandler;
+        private AnimationHandler animationHandler;
 
-    private void Update()
-    {
-        if (timeSinceLastChange < healthChangeDelay)
+        private float timeSinceLastChange = float.MaxValue;
+
+        public float CurrentHealth { get; private set; }
+        public float MaxHealth => statHandler.Health;
+
+        public AudioClip damageClip;
+
+        private Action<float, float> OnChangeHealth;
+
+        private void Awake()
         {
-            timeSinceLastChange += Time.deltaTime;
-            if (timeSinceLastChange >= healthChangeDelay)
+            statHandler = GetComponent<StatHandler>();
+            animationHandler = GetComponent<AnimationHandler>();
+            baseController = GetComponent<BaseController>();
+        }
+
+        private void Start()
+        {
+            CurrentHealth = statHandler.Health;
+        }
+
+        private void Update()
+        {
+            if (timeSinceLastChange < healthChangeDelay)
             {
-                animationHandler.InvincibilityEnd();
+                timeSinceLastChange += Time.deltaTime;
+                if (timeSinceLastChange >= healthChangeDelay)
+                {
+                    animationHandler.InvincibilityEnd();
+                }
             }
         }
-    }
 
-    public bool ChangeHealth(float change)
-    {
-        if (change == 0 || timeSinceLastChange < healthChangeDelay)
+        public bool ChangeHealth(float change)
         {
-            return false;
+            if (change == 0 || timeSinceLastChange < healthChangeDelay)
+            {
+                return false;
+            }
+
+            timeSinceLastChange = 0f;
+            CurrentHealth += change;
+            CurrentHealth = CurrentHealth > MaxHealth ? MaxHealth : CurrentHealth;
+            CurrentHealth = CurrentHealth < 0 ? 0 : CurrentHealth;
+
+            OnChangeHealth?.Invoke(CurrentHealth, MaxHealth);
+
+            if (change < 0)
+            {
+                animationHandler.Damage();
+
+                if (damageClip)
+                    SoundManager.PlayClip(damageClip);
+            }
+
+            if (CurrentHealth <= 0f)
+            {
+                Death();
+            }
+
+            return true;
         }
 
-        timeSinceLastChange = 0f;
-        CurrentHealth += change;
-        CurrentHealth = CurrentHealth > MaxHealth ? MaxHealth : CurrentHealth;
-        CurrentHealth = CurrentHealth < 0 ? 0 : CurrentHealth;
-
-        if (change < 0)
+        private void Death()
         {
-            animationHandler.Damage();
-
+            baseController.Death();
         }
 
-        if (CurrentHealth <= 0f)
+        public void AddHealthChangeEvent(Action<float, float> action)
         {
-            Death();
+            OnChangeHealth += action;
         }
 
-        return true;
+        public void RemoveHealthChangeEvent(Action<float, float> action)
+        {
+            OnChangeHealth -= action;
+        }
+
     }
-
-    private void Death()
-    {
-
-    }
-
 }

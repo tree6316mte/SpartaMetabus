@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 5320227264586493053}
   - component: {fileID: 310551746787617332}
   m_Layer: 8
-  m_Name: Goblin
+  m_Name: Goblin 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -271,7 +271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterRenderer: {fileID: 6107998786065152227}
   weaponPivot: {fileID: 2942310651991816965}
-  WeaponPrefab: {fileID: 7849514086200124568, guid: 1d8703ecab9b2e0499f7da468723f6b1, type: 3}
+  WeaponPrefab: {fileID: 5587491911209885257, guid: 3674df490b7e05e448225969f09eb67b, type: 3}
   followRange: 15
 --- !u!1 &7066528200607812724
 GameObject:
