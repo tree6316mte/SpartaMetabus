@@ -15,8 +15,8 @@ public class PlayerController : BaseController
     protected override void HandleAction()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertial = Input.GetAxisRaw("Vertical");
-        movementDirection = new Vector2(horizontal, vertial).normalized;
+        float vertical = Input.GetAxisRaw("Vertical");
+        movementDirection = new Vector2(horizontal, vertical).normalized;
 
         Vector2 mousePosition = Input.mousePosition;
         Vector2 worldPos = camera.ScreenToWorldPoint(mousePosition);
@@ -30,5 +30,7 @@ public class PlayerController : BaseController
         {
             lookDirection = lookDirection.normalized;
         }
+
+        isAttacking = Input.GetMouseButton(0);
     }
 }
