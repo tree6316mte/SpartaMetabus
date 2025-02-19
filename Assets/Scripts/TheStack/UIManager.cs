@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 namespace TheStack
@@ -62,6 +63,8 @@ namespace TheStack
 
         public void OnClickExit()
         {
+            SceneManager.LoadScene("SpartaMetabus");
+            return;
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #else

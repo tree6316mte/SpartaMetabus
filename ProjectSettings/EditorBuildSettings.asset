@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/SpartaMetabus.unity
+    guid: 86e563ad277209b469048b843ebb8ca9
+  - enabled: 1
+    path: Assets/Scenes/TheStack.unity
+    guid: 0f836141f8433b347a4db92ef2192ce0
+  - enabled: 1
+    path: Assets/Scenes/FlappyBird.unity
+    guid: 3e1a43cf8829ce4448b3bd880d8fa56a
   m_configObjects: {}
