@@ -22,6 +22,8 @@ public class BaseController : MonoBehaviour
     protected bool isAttacking;
     private float timeSinceLastAttack = float.MaxValue;
 
+    public GameObject ride;
+
     protected virtual void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -71,7 +73,15 @@ public class BaseController : MonoBehaviour
         }
         else
         {
-            unitAnimHandler.PlayAnimation(UnitAnimState.MOVE, 0);
+            if (!ride.activeSelf)
+            {
+                unitAnimHandler.PlayAnimation(UnitAnimState.MOVE, 0);
+            }
+            else
+            {
+                _rigidbody.velocity = direction * 2;
+                unitAnimHandler.PlayAnimation(UnitAnimState.IDLE, 0);
+            }
         }
     }
 
