@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FlappyBird.unity
     guid: 3e1a43cf8829ce4448b3bd880d8fa56a
+  - enabled: 1
+    path: Assets/Scenes/QuickClick.unity
+    guid: 2bfc6af7a2e1741498d68514bb37d288
   m_configObjects: {}

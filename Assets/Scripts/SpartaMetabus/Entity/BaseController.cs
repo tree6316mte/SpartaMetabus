@@ -65,7 +65,14 @@ public class BaseController : MonoBehaviour
         }
 
         _rigidbody.velocity = direction;
-        unitAnimHandler.PlayAnimation(UnitAnimState.MOVE, 0);
+        if (direction.magnitude < 0.1f)
+        {
+            unitAnimHandler.PlayAnimation(UnitAnimState.IDLE, 0);
+        }
+        else
+        {
+            unitAnimHandler.PlayAnimation(UnitAnimState.MOVE, 0);
+        }
     }
 
     private void Rotate(Vector2 direction)
