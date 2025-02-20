@@ -12,7 +12,7 @@ public class DialogBoxHandler : MonoBehaviour
     }
     void OnTriggerStay2D()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKey(KeyCode.F))
         {
             box.SetActive(true);
         }
