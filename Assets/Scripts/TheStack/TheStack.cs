@@ -86,7 +86,7 @@ namespace TheStack
                 }
             }
 
-            // MoveBlock();
+            MoveBlock();
             transform.position = Vector3.Lerp(transform.position, desiredPosition, StackMovingSpeed * Time.deltaTime);
         }
 
