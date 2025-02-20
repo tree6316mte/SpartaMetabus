@@ -2,26 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowCamera : MonoBehaviour
+namespace FlappyBird
 {
-    public Transform target;
-    float offsetX;
-
-    void Start()
+    public class FollowCamera : MonoBehaviour
     {
-        if (target == null)
-            return;
+        public Transform target;
+        float offsetX;
 
-        offsetX = transform.position.x - target.position.x;
-    }
+        void Start()
+        {
+            if (target == null)
+                return;
 
-    void Update()
-    {
-        if (target == null)
-            return;
+            offsetX = transform.position.x - target.position.x;
+        }
 
-        Vector3 pos = transform.position;
-        pos.x = target.position.x + offsetX;
-        transform.position = pos;
+        void Update()
+        {
+            if (target == null)
+                return;
+
+            Vector3 pos = transform.position;
+            pos.x = target.position.x + offsetX;
+            transform.position = pos;
+        }
     }
 }
